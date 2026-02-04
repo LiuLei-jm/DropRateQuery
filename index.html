@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet">
+<style>
+html,body{width:100%;height:100%;padding:0px;margin:0px;}.layui-bg-green,.layui-btn{background-color:#009688  !important}#menu{z-index:999999;position:relative}#main{height:calc(100% - 60px);overflow:hidden;}.content{width:100%;height:calc(100% - 80px);overflow:hidden;margin:0 auto;margin-top:10px;}.content > div{width:22%;margin-left:2.5%;height:100%;float:left;}.content > div .layui-elem-field{height:calc(100% - 30px) !important;}.content > div legend{font-size:14px;font-weight:bolder;color:#007DDB;}.content > div .layui-elem-field .layui-field-box{height:calc(100% - 30px);overflow:auto;}.content > div .layui-elem-field .layui-field-box > div > div{cursor:pointer;}.content > div .layui-elem-field .layui-field-box > div > div:hover{color:#007DDB;}.select{color:red;}.mapTransfer h3{display:none;}.logo{font-size:24px;}.logo img{max-width:95px;width:100%;height:100%;}.footer{line-height:0;text-align:center;color:#666;font-weight:300;}.version_list {display: flex; flex-wrap: wrap; align-items: flex-start;}.version_list button {margin: 0 3px 3px 0; border-radius: 20px;}</style>
+</head>
+<body>
+<div id="menu">
+    <ul class="layui-nav layui-bg-green">
+        <li class="layui-nav-item" style="cursor: pointer">
+            <a class="layui-nav-item layui-this"  style="cursor: pointer" href="/">首页</a>
+        </li>
+		        <li class="layui-nav-item" >
+            <a href="stditem.html">物品查询</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="mon.html">怪物查询</a>
+        </li>
+		<li class="layui-nav-item">
+            <a href="map.html">地图查询</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="npc.html">NPC查询</a>
+        </li>
+    </ul>
+</div>
+<div style="margin: 0 auto; max-width: 55%;height:88%;">
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>使用说明</legend>
+</fieldset> 
+
+<div class="info">1.查询系统能查到的必然会出，查不到的就不一定会出,出处可能是NPC合成等方式，若不能确定，请联系GM核实。<br/>2.若发现某些物品是确实需要的，但是在物品列表中差不到或者与游戏当中的名字不符，请联系GM核实。</div>
+
+<fieldset class="layui-elem-field layui-field-title" style="margin-top: 30px;">
+  <legend>版本选择</legend>
+</fieldset> 
+
+<div class="version_list"></div>
+</div>
+
+<script src="/layui/2.8.15/layui.min.js"></script>
+<script src="/jquery/3.6.1/jquery.min.js"></script>
+<script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/main.js"></script>
+<!--<script>
+$(function() {
+layer.alert('目前为测试阶段，如果遇到有BUG或者其他问题，联系QQ:'+gmqqhao, {
+  skin: 'layui-layer-molv' //样式类名
+  ,closeBtn: 0
+});
+});
+</script>-->
+</body>
+
+</html>

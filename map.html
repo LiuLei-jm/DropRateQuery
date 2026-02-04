@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title></title>
+<link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet">
+<style>
+html,body{width:100%;height:100%;overflow:hidden;padding:0px;margin:0px;}.layui-bg-green,.layui-btn{background-color:#009688  !important}#menu{z-index:999999;position:relative}.layui-bg-green,.layui-btn{background-color:#009688  !important}#main{height:calc(100% - 60px);overflow:hidden;}.content{width:100%;height:calc(100% - 80px);overflow:hidden;margin:0 auto;margin-top:10px;}.content > div{width:22%;margin-left:2.5%;height:100%;float:left;}.content > div .layui-elem-field{height:calc(100% - 30px) !important;}.content > div legend{font-size:14px;font-weight:bolder;color:#007DDB;}.content > div .layui-elem-field .layui-field-box{height:calc(100% - 30px);overflow:auto;}.content > div .layui-elem-field .layui-field-box > div > div{cursor:pointer;}.content > div .layui-elem-field .layui-field-box > div > div:hover{color:#007DDB;}.select{color:red;}.mapTransfer h3{display:none;}.logo{font-size:24px;}.logo img{max-width:95px;width:100%;height:100%;}.footer{line-height:0;text-align:center;color:#666;font-weight:300;}#version-child-list{max-height: 600px;overflow-y: auto;}
+</style>
+</head>
+<body>
+<div id="menu">
+    <ul class="layui-nav layui-bg-green">
+        <li class="layui-nav-item">
+            <a href="/">首页</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="stditem.html">物品查询</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="mon.html">怪物查询</a>
+        </li>
+		<li class="layui-nav-item  layui-this" style="cursor: pointer">
+            <a href="map.html">地图查询</a>
+        </li>
+        <li class="layui-nav-item">
+            <a href="npc.html">NPC查询</a>
+        </li>
+      <li id="version-nav-list" class="layui-nav-item" style="float:right;cursor:pointer;color:#fff">
+        <dl id="version-child-list" class="layui-nav-child"> <!-- 二级菜单 -->
+        </dl>
+      </li>
+    </ul>
+</div>
+<div id="main">
+    <div class="layui-form-item" style="width: 80%;margin: 10px auto">
+        <div class="layui-input-inline" style="width: calc(100% - 200px)">
+            <input id="key" type="text" name="key" required lay-verify="required" placeholder="请输入地图关键字(删除所有关键字可查询所有地图)" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline" style="width: 180px">
+            <button id="search" type="button" class="layui-btn">搜索地图名称</button>
+        </div>
+
+    </div>
+
+    <div class="content">
+        <div class="equ">
+            <fieldset class="layui-elem-field">
+                <legend>地图列表（点击地图名称查看此地图怪物列表）</legend>
+                <div class="layui-field-box">
+                    <div id="equList"></div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="mon">
+            <fieldset class="layui-elem-field">
+                <legend id="monTitle">怪物列表</legend>
+                <div class="layui-field-box">
+                    <div id="monList"></div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="map">
+            <fieldset class="layui-elem-field">
+                <legend id="mapTitle">爆率列表</legend>
+                <div class="layui-field-box">
+                    <div id="mapList"></div>
+                </div>
+            </fieldset>
+        </div>
+        <div class="mapTransfer">
+            <fieldset class="layui-elem-field">
+                <legend id="mapTransferTitle">跑图流程（没有信息说明此地图是触发进入）</legend>
+                <div class="layui-field-box">
+                    <div id="mapTransferList"></div>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+
+</div>
+</body>
+<script src="/layui/2.8.15/layui.min.js"></script>
+<script src="/jquery/3.6.1/jquery.min.js"></script>
+<script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="js/custom.js"></script>
+<script src="js/main.js"></script>
+<script src="js/map.js"></script>
+</html>
