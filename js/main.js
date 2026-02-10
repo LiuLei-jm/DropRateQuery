@@ -4,10 +4,10 @@
  */
 
 // Configuration variables
-var indextitle = "爆率查询"; // Drop rate query
-var gmqqhao = "14699396";
-var gmqqqun = "976463809";
-var qqunlink = "https://qm.qq.com/cgi-bin/qm/qr?k=7LvYricvxSRAUTL3IzjiWUOTquruTNq8&amp;jump_from=webapi";
+// var indextitle = "爆率查询"; // Drop rate query
+// var gmqqhao = "14699396";
+// var gmqqqun = "976463809";
+// var qqunlink = "https://qm.qq.com/cgi-bin/qm/qr?k=7LvYricvxSRAUTL3IzjiWUOTquruTNq8&amp;jump_from=webapi";
 
 // Note: The real version list is loaded from custom.js
 // This is just placeholder code for understanding the functionality
