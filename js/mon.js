@@ -168,6 +168,37 @@ function initializeIndex() {
 
 // Initialize monster search functionality
 $(function () {
+  // Use event delegation for both native and layui select elements
+  $(document).on('change', '#monsterFilter, select[lay-filter="monsterFilter"]', function() {
+    const selectedValue = $(this).val();
+    console.log("Monster filter changed to: ", selectedValue); // Debug log
+    // Clear previous results when filter changes
+    $("#monList, #mapList, #mapTransferList, #equList").html("");
+    // Refresh monsters based on new filter
+    getMonByKey();
+  });
+
+  // Initialize layui form elements if available
+  if (typeof layui !== 'undefined' && layui.form) {
+    // Add the lay-filter attribute to the select element to enable layui events
+    $('#monsterFilter').attr('lay-filter', 'monsterFilter');
+
+    // Also listen for layui's select event as an additional measure
+    layui.form.on('select', function(data) {
+      // Only handle our specific filter
+      if (data.elem.id === 'monsterFilter' || data.filter === 'monsterFilter') {
+        console.log("Layui monster filter changed to: ", data.value); // Debug log
+        // Clear previous results when filter changes
+        $("#monList, #mapList, #mapTransferList, #equList").html("");
+        // Refresh monsters based on new filter
+        getMonByKey();
+      }
+    });
+
+    // Render the form elements to apply layui styles and activate the listeners
+    layui.form.render();
+  }
+
   // Set up search button click handler
   $("#search").click(function () {
     // Clear previous results
@@ -175,6 +206,12 @@ $(function () {
     // Search for monsters by keyword
     getMonByKey();
   });
+
+  // Set default value for monster filter and ensure layui renders it properly
+  $("#monsterFilter").val('dropsItems');
+  if (typeof layui !== 'undefined' && layui.form) {
+    layui.form.render('select'); // Re-render just the select elements
+  }
 
   // Check URL for version parameter first
   var searchParams = new URLSearchParams(window.location.search);
@@ -291,6 +328,40 @@ function getMonsterName(monId) {
   return "怪物" + monId;
 }
 
+// Check if a monster drops any items by checking the appropriate field in the Monlist
+// Note: This function is kept for potential other uses, but display filtering now checks the monster object directly
+function monsterHasDrops(monsterId) {
+  if (typeof Monlist === "undefined" || !Array.isArray(Monlist)) {
+    return false;
+  }
+
+  // Look for the specific monster in Monlist
+  for (let i = 0; i < Monlist.length; i++) {
+    const monster = Monlist[i];
+    // Use strict string comparison to ensure proper matching
+    if (monster && String(monster.id) === String(monsterId)) {
+      // Check multiple possible field names that might indicate if a monster drops items
+      // According to your specification, check the 'std' field primarily
+      if (typeof monster.std !== 'undefined' && monster.std !== null) {
+        // If std field is "-1", the monster does NOT drop items
+        // If std field is anything else, the monster drops items
+        return String(monster.std) !== "-1";
+      }
+
+      // As a fallback, also check the 'mon' field which might contain item IDs
+      if (typeof monster.mon !== 'undefined' && monster.mon !== null) {
+        return String(monster.mon) !== "-1";
+      }
+
+      // If no relevant field found, the monster does NOT drop items
+      return false;
+    }
+  }
+
+  // If we can't find the monster, it does NOT drop items
+  return false;
+}
+
 // Create monster list from Stdlist data
 function createMonsterListFromStdlist() {
   if (typeof Stdlist !== "undefined" && Stdlist.length > 0) {
@@ -330,13 +401,26 @@ function getMonByKey() {
     window.Monlist = createMonsterListFromStdlist();
   }
 
+  // Get the filter selection: 'dropsItems' for monsters that drop items, 'all' for all monsters
+  let filterType;
+  if (typeof layui !== 'undefined' && layui.form) {
+    // If using layui, try to get value with multiple fallbacks
+    const $select = $('#monsterFilter');
+    filterType = $select.val() || document.getElementById('monsterFilter').value || $select.find('option:selected').val() || 'dropsItems';
+  } else {
+    filterType = $("#monsterFilter").val() || 'dropsItems';
+  }
+
+  // Debug log to see what filterType is being used
+  console.log("Current monster filterType: ", filterType);
+
   // Get the search keyword from input field and sanitize it
   let keyword = $("#key").val();
   keyword = sanitizeInput(keyword).toLowerCase();
 
-  // Use cache if available
-  const cacheKey = `mon_fuzzy_${keyword}_${Monlist.length}`;
-  if (searchCache.has(cacheKey)) {
+  // Use cache if available - include filter type in cache key to avoid conflicts
+  const cacheKey = `mon_fuzzy_${keyword}_${filterType}_${Monlist.length}`;
+  if (keyword !== "" && searchCache.has(cacheKey)) {
     const cachedResult = searchCache.get(cacheKey);
     const container = document.getElementById('equList');
     if (container) {
@@ -344,6 +428,11 @@ function getMonByKey() {
       container.appendChild(cachedResult);
     }
     return;
+  }
+
+  // Clear cache for empty keyword to ensure fresh results when showing all monsters
+  if (keyword === "") {
+    searchCache.clear(); // Clear cache when showing all items to avoid stale bindings
   }
 
   // Create document fragment for efficient DOM manipulation
@@ -360,18 +449,25 @@ function getMonByKey() {
             try {
               const monster = Monlist[i];
               if (monster) {
-                // Create element for the monster entry with sanitized content
-                const monsterDiv = document.createElement('div');
-                monsterDiv.className = 'hove';
-                monsterDiv.setAttribute('listId', i);
-                // Capture the monId using closure to ensure correct value even after list updates
-                monsterDiv.onclick = (function(monId) {
-                  return function() {
-                    getStdByMon(monId);
-                  };
-                })(i);
-                monsterDiv.textContent = `${i + 1}、${monster.name}`;
-                fragment.appendChild(monsterDiv);
+                // Check if the monster should be displayed based on filter type
+                // Check the std field directly on the monster object
+                const shouldDisplay = filterType === 'all' || (
+                  typeof monster.std !== 'undefined' && monster.std !== null && String(monster.std) !== "-1"
+                );
+                if (shouldDisplay) {
+                  // Create element for the monster entry with sanitized content
+                  const monsterDiv = document.createElement('div');
+                  monsterDiv.className = 'hove';
+                  monsterDiv.setAttribute('listId', i);
+                  // Capture the monId using closure to ensure correct value even after list updates
+                  monsterDiv.onclick = (function(monId) {
+                    return function() {
+                      getStdByMon(monId);
+                    };
+                  })(i);
+                  monsterDiv.textContent = `${i + 1}、${monster.name}`;
+                  fragment.appendChild(monsterDiv);
+                }
               }
             } catch (error) {
               console.warn(`Error processing monster at index ${i}:`, error);
@@ -390,18 +486,25 @@ function getMonByKey() {
             // Use fuzzy search with case-insensitive matching for both English and Chinese
             const monsterNameLower = monster.name.toLowerCase();
             if (matchesFuzzily(monsterNameLower, keyword)) {
-              // Create element for the monster entry with sanitized content
-              const monsterDiv = document.createElement('div');
-              monsterDiv.className = 'hove';
-              monsterDiv.setAttribute('listId', i);
-              // Capture the monId using closure to ensure correct value even after list updates
-              monsterDiv.onclick = (function(monId) {
-                return function() {
-                  getStdByMon(monId);
-                };
-              })(i);
-              monsterDiv.textContent = `${i + 1}、${monster.name}`;
-              fragment.appendChild(monsterDiv);
+              // Check if the monster should be displayed based on filter type
+              // Check the std field directly on the monster object
+              const shouldDisplay = filterType === 'all' || (
+                typeof monster.std !== 'undefined' && monster.std !== null && String(monster.std) !== "-1"
+              );
+              if (shouldDisplay) {
+                // Create element for the monster entry with sanitized content
+                const monsterDiv = document.createElement('div');
+                monsterDiv.className = 'hove';
+                monsterDiv.setAttribute('listId', i);
+                // Capture the monId using closure to ensure correct value even after list updates
+                monsterDiv.onclick = (function(monId) {
+                  return function() {
+                    getStdByMon(monId);
+                  };
+                })(i);
+                monsterDiv.textContent = `${i + 1}、${monster.name}`;
+                fragment.appendChild(monsterDiv);
+              }
             }
           }
         } catch (error) {
@@ -411,25 +514,29 @@ function getMonByKey() {
       }
     }
   } else {
-    // Clear cache for empty keyword to ensure fresh results when showing all monsters
-    searchCache.clear(); // Clear cache when showing all items to avoid stale bindings
-
-    // Show all monsters if no keyword provided
+    // Show monsters based on filter type if no keyword provided
     for (let i = 0; i < Monlist.length; i++) {
       try {
         const monster = Monlist[i];
         if (monster) {
-          const monsterDiv = document.createElement('div');
-          monsterDiv.className = 'hove';
-          monsterDiv.setAttribute('listId', i);
-          // Use direct event binding with closure to ensure proper monId capture
-          (function(index) {
-            monsterDiv.onclick = function() {
-              getStdByMon(index);
-            };
-          })(i);
-          monsterDiv.textContent = `${i + 1}、${monster.name}`;
-          fragment.appendChild(monsterDiv);
+          // Check if the monster should be displayed based on filter type
+          // Check the std field directly on the monster object
+          const shouldDisplay = filterType === 'all' || (
+            typeof monster.std !== 'undefined' && monster.std !== null && String(monster.std) !== "-1"
+          );
+          if (shouldDisplay) {
+            const monsterDiv = document.createElement('div');
+            monsterDiv.className = 'hove';
+            monsterDiv.setAttribute('listId', i);
+            // Use direct event binding with closure to ensure proper monId capture
+            (function(index) {
+              monsterDiv.onclick = function() {
+                getStdByMon(index);
+              };
+            })(i);
+            monsterDiv.textContent = `${i + 1}、${monster.name}`;
+            fragment.appendChild(monsterDiv);
+          }
         }
       } catch (error) {
         console.warn(`Error processing monster at index ${i}:`, error);

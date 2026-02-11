@@ -1,110 +1,221 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<title></title>
-<link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet">
-<style>
-html,body{width:100%;height:100%;overflow:hidden;padding:0px;margin:0px;}.layui-bg-green,.layui-btn{background-color:#009688  !important}#menu{z-index:999999;position:relative}#main{height:calc(100% - 60px);overflow:hidden;}.content{width:100%;height:calc(100% - 80px);overflow:hidden;margin:0 auto;margin-top:10px;}.content > div{width:22%;margin-left:2.5%;height:100%;float:left;}.content > div .layui-elem-field{height:calc(100% - 30px) !important;}.content > div legend{font-size:14px;font-weight:bolder;color:#007DDB;}.content > div .layui-elem-field .layui-field-box{height:calc(100% - 30px);overflow:auto;}.content > div .layui-elem-field .layui-field-box > div > div{cursor:pointer;}.hove:hover{color:#007DDB;}.select{color:red;}.mapTransfer h3{display:none;}.logo{font-size:24px;}.logo img{max-width:95px;width:100%;height:100%;}.footer{line-height:0;text-align:center;color:#666;font-weight:300;}.layui-card.npclink {display: none;}.layui-card.dingshi {display: none;}#version-child-list{max-height: 600px;overflow-y: auto;}
-</style>
-</head>
-<body>
-<div id="menu">
-    <ul class="layui-nav layui-bg-green">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title></title>
+    <link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet" />
+    <style>
+      html,
+      body {
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        padding: 0px;
+        margin: 0px;
+      }
+      .layui-bg-green,
+      .layui-btn {
+        background-color: #009688 !important;
+      }
+      #menu {
+        z-index: 999999;
+        position: relative;
+      }
+      #main {
+        height: calc(100% - 60px);
+        overflow: hidden;
+      }
+      .content {
+        width: 100%;
+        height: calc(100% - 80px);
+        overflow: hidden;
+        margin: 0 auto;
+        margin-top: 10px;
+      }
+      .content > div {
+        width: 22%;
+        margin-left: 2.5%;
+        height: 100%;
+        float: left;
+      }
+      .content > div .layui-elem-field {
+        height: calc(100% - 30px) !important;
+      }
+      .content > div legend {
+        font-size: 14px;
+        font-weight: bolder;
+        color: #007ddb;
+      }
+      .content > div .layui-elem-field .layui-field-box {
+        height: calc(100% - 30px);
+        overflow: auto;
+      }
+      .content > div .layui-elem-field .layui-field-box > div > div {
+        cursor: pointer;
+      }
+      .hove:hover {
+        color: #007ddb;
+      }
+      .select {
+        color: red;
+      }
+      .mapTransfer h3 {
+        display: none;
+      }
+      .logo {
+        font-size: 24px;
+      }
+      .logo img {
+        max-width: 95px;
+        width: 100%;
+        height: 100%;
+      }
+      .footer {
+        line-height: 0;
+        text-align: center;
+        color: #666;
+        font-weight: 300;
+      }
+      .layui-card.npclink {
+        display: none;
+      }
+      .layui-card.dingshi {
+        display: none;
+      }
+      #version-child-list {
+        max-height: 600px;
+        overflow-y: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="menu">
+      <ul class="layui-nav layui-bg-green">
         <li class="layui-nav-item" style="cursor: pointer">
-            <a href="index.html">首页</a>
+          <a href="index.html">首页</a>
         </li>
-		        <li class="layui-nav-item layui-this" style="cursor: pointer">
-            <a href="stditem.html">物品查询</a>
-        </li>
-        <li class="layui-nav-item">
-            <a href="mon.html">怪物查询</a>
-        </li>
-		<li class="layui-nav-item">
-            <a href="map.html">地图查询</a>
+        <li class="layui-nav-item layui-this" style="cursor: pointer">
+          <a href="stditem.html">物品查询</a>
         </li>
         <li class="layui-nav-item">
-            <a href="npc.html">NPC查询</a>
+          <a href="mon.html">怪物查询</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="map.html">地图查询</a>
+        </li>
+        <li class="layui-nav-item">
+          <a href="npc.html">NPC查询</a>
         </li>
 
-      <li id="version-nav-list" class="layui-nav-item" style="float:right;cursor:pointer;color:#fff">
-        <a href="javascript:void(0)" id="current-version-display">当前版本【】</a>
-        <dl id="version-child-list" class="layui-nav-child"> <!-- 二级菜单 -->
-        </dl>
-      </li>
-    </ul>
-</div><div id="main">
-    <div class="layui-form-item" style="width: 80%;margin: 10px auto">
-        <div class="layui-input-inline" style="width: calc(100% - 200px)">
-            <input id="key" type="text" name="key" required lay-verify="required" placeholder="请输入装备关键字(删除所有关键字可查询所有物品)" autocomplete="off" class="layui-input">
-        </div>
-        <div class="layui-input-inline" style="width: 180px">
-            <button id="search" type="button" class="layui-btn">搜索物品装备</button>
-        </div>
-
+        <li
+          id="version-nav-list"
+          class="layui-nav-item"
+          style="float: right; cursor: pointer; color: #fff"
+        >
+          <a href="javascript:void(0)" id="current-version-display"
+            >当前版本【】</a
+          >
+          <dl id="version-child-list" class="layui-nav-child">
+            <!-- 二级菜单 -->
+          </dl>
+        </li>
+      </ul>
     </div>
+    <div id="main">
+      <div class="layui-form layui-row layui-col-space16" style="width: 95%; margin: 5px 0px 5px 2.2%">
+        <div class="layui-col-md1">
+          <select id="itemFilter" class="layui-select">
+            <option value="hasOrigin">有出处的</option>
+            <option value="all">所有物品</option>
+          </select>
+        </div>
+        <div class="layui-col-md6">
+          <input
+            id="key"
+            type="text"
+            name="key"
+            required
+            lay-verify="required"
+            placeholder="请输入装备关键字(删除所有关键字可查询所有物品)"
+            autocomplete="off"
+            class="layui-input"
+          />
+        </div>
+        <div class="layui-col-md1">
+          <button id="search" type="button" class="layui-btn">
+            搜索物品装备
+          </button>
+        </div>
+        <div class="layui-col-md4"></div>
+      </div>
 
-    <div class="content">
+      <div class="content">
         <div class="equ">
-            <fieldset class="layui-elem-field">
-                <legend>物品装备列表（点击物品查看哪些怪物爆出）</legend>
-                <div class="layui-field-box">
-                    <div id="equList"></div>
-                </div>
-            </fieldset>
+          <fieldset class="layui-elem-field">
+            <legend>物品装备列表（点击物品查看哪些怪物爆出）</legend>
+            <div class="layui-field-box">
+              <div id="equList"></div>
+            </div>
+          </fieldset>
         </div>
         <div class="mon">
-            <fieldset class="layui-elem-field">
-                <legend id="monTitle">可以在这些怪物或NPC获取（点击怪物查看地图）</legend>
-                <div class="layui-field-box">
-                    <div class="layui-card npclink" style="margin-bottom: 5px;">
-                    <div id="npcTitle" class="layui-card-header" style="color: #007DDB;font-weight: bolder;">
-                    NPC关联(可以获取或消耗)
-                    </div>
-                    <div class="layui-card-body" id="npccon">
-                    没有找到
-                    </div>
-                    </div>
-                    <div id="monList">
-                        
-                    </div>
-
+          <fieldset class="layui-elem-field">
+            <legend id="monTitle">
+              可以在这些怪物或NPC获取（点击怪物查看地图）
+            </legend>
+            <div class="layui-field-box">
+              <div class="layui-card npclink" style="margin-bottom: 5px">
+                <div
+                  id="npcTitle"
+                  class="layui-card-header"
+                  style="color: #007ddb; font-weight: bolder"
+                >
+                  NPC关联(可以获取或消耗)
                 </div>
-            </fieldset>
+                <div class="layui-card-body" id="npccon">没有找到</div>
+              </div>
+              <div id="monList"></div>
+            </div>
+          </fieldset>
         </div>
         <div class="map">
-            <fieldset class="layui-elem-field">
-                <legend id="mapTitle">所在地图名称（没有地图说明这个怪物不刷出）</legend>
-                <div class="layui-field-box">
-					<div class="layui-card dingshi" style="margin-bottom: 5px;">
-						<div id="dingshiTitle" class="layui-card-header" style="color: #007DDB;font-weight: bolder;">
-						定时刷新
-						</div>
-						<div class="layui-card-body" id="dingshicon">
-						没有找到
-						</div>
-						</div>
-                    <div id="mapList"></div>
+          <fieldset class="layui-elem-field">
+            <legend id="mapTitle">
+              所在地图名称（没有地图说明这个怪物不刷出）
+            </legend>
+            <div class="layui-field-box">
+              <div class="layui-card dingshi" style="margin-bottom: 5px">
+                <div
+                  id="dingshiTitle"
+                  class="layui-card-header"
+                  style="color: #007ddb; font-weight: bolder"
+                >
+                  定时刷新
                 </div>
-            </fieldset>
+                <div class="layui-card-body" id="dingshicon">没有找到</div>
+              </div>
+              <div id="mapList"></div>
+            </div>
+          </fieldset>
         </div>
         <div class="mapTransfer">
-            <fieldset class="layui-elem-field">
-                <legend id="mapTransferTitle">跑图流程（没有信息说明此地图是触发进入）</legend>
-                <div class="layui-field-box">
-                    <div id="mapTransferList"></div>
-                </div>
-            </fieldset>
+          <fieldset class="layui-elem-field">
+            <legend id="mapTransferTitle">
+              跑图流程（没有信息说明此地图是触发进入）
+            </legend>
+            <div class="layui-field-box">
+              <div id="mapTransferList"></div>
+            </div>
+          </fieldset>
         </div>
+      </div>
     </div>
-
-</div>
-<script src="/layui/2.8.15/layui.min.js"></script>
-<script src="/jquery/3.6.1/jquery.min.js"></script>
-<script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/main.js"></script>
-<script src="js/stditem.js"></script>
-</body>
+    <script src="/layui/2.8.15/layui.min.js"></script>
+    <script src="/jquery/3.6.1/jquery.min.js"></script>
+    <script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+    <script src="js/custom.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/stditem.js"></script>
+  </body>
 </html>
