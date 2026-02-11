@@ -1,9 +1,8 @@
 var indextitle = "爆率查询";
 var gmqqhao = "14699396";
-
 var gmqqqun = "976463809";
-
 var qqunlink = "https://qm.qq.com/cgi-bin/qm/qr?k=7LvYricvxSRAUTL3IzjiWUOTquruTNq8&amp;jump_from=webapi";
+
 var version_list = [
 	{
   name: "追忆传奇",
