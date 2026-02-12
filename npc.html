@@ -2,11 +2,190 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title></title>
 <link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet">
 <style>
-html,body{width:100%;height:100%;overflow:hidden;padding:0px;margin:0px;}.layui-bg-green,.layui-btn{background-color:#009688  !important}#menu{z-index:999999;position:relative}#main{height:calc(100% - 60px);overflow:hidden;}.content{width:100%;height:calc(100% - 80px);overflow:hidden;margin:0 auto;margin-top:10px;}.content > div{width:22%;margin-left:2.5%;height:100%;float:left;}.content > div .layui-elem-field{height:calc(100% - 30px) !important;}.content > div legend{font-size:14px;font-weight:bolder;color:#007DDB;}.content > div .layui-elem-field .layui-field-box{height:calc(100% - 30px);overflow:auto;}.content > div .layui-elem-field .layui-field-box > div > div{cursor:pointer;}.content > div .layui-elem-field .layui-field-box > div > div:hover{color:#007DDB;}.select{color:red;}.mapTransfer h3{display:none;}.logo{font-size:24px;}.logo img{max-width:95px;width:100%;height:100%;}.footer{line-height:0;text-align:center;color:#666;font-weight:300;}#version-child-list{max-height: 600px;overflow-y: auto;}
+html,body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: 0px;
+  margin: 0px;
+  font-size: 14px; /* Default font size for better mobile readability */
+}
+.layui-bg-green,
+.layui-btn {
+  background-color: #009688 !important;
+}
+#menu {
+  z-index: 999999;
+  position: relative;
+}
+#main {
+  height: calc(100% - 60px);
+  overflow: hidden;
+}
+.content {
+  width: 100%;
+  height: calc(100% - 80px);
+  overflow: hidden;
+  margin: 0 auto;
+  margin-top: 10px;
+}
+.content > div {
+  width: 22%;
+  margin-left: 2.5%;
+  height: 100%;
+  float: left;
+}
+.content > div .layui-elem-field {
+  height: calc(100% - 30px) !important;
+}
+.content > div legend {
+  font-size: 14px;
+  font-weight: bolder;
+  color: #007DDB;
+}
+.content > div .layui-elem-field .layui-field-box {
+  height: calc(100% - 30px);
+  overflow: auto;
+}
+.content > div .layui-elem-field .layui-field-box > div > div {
+  cursor: pointer;
+  font-size: 14px; /* Reduced from 16px for PC */
+}
+.content > div .layui-elem-field .layui-field-box > div > div:hover {
+  color: #007DDB;
+}
+.select {
+  color: red;
+}
+.mapTransfer h3 {
+  display: none;
+}
+.logo {
+  font-size: 24px;
+}
+.logo img {
+  max-width: 95px;
+  width: 100%;
+  height: 100%;
+}
+.footer {
+  line-height: 0;
+  text-align: center;
+  color: #666;
+  font-weight: 300;
+}
+#version-child-list {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+/* Responsive styles for mobile devices */
+@media screen and (max-width: 768px) {
+  body {
+    font-size: 16px;
+    overflow: auto; /* Allow scrolling on mobile */
+  }
+
+  #menu .layui-nav {
+    padding: 0 5px;
+    overflow-x: auto; /* Allow horizontal scrolling if menu is too wide */
+    white-space: nowrap;
+  }
+
+  .layui-nav-item {
+    display: inline-block;
+    float: none;
+  }
+
+  #main {
+    height: auto;
+    overflow: visible;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+  }
+
+  /* Adjust form layout for mobile */
+  .layui-form-item {
+    width: 100% !important;
+    padding: 10px 5px;
+    margin: 10px auto !important;
+  }
+
+  .layui-input-inline {
+    display: block;
+    width: 100% !important;
+    margin-bottom: 10px;
+  }
+
+  .layui-input-inline input {
+    width: 100%;
+    height: 44px; /* Minimum touch target size */
+  }
+
+  .layui-input-inline button {
+    width: 100%;
+    height: 44px;
+    font-size: 16px;
+  }
+
+  .content {
+    width: 100%;
+    height: auto;
+    padding: 10px;
+    margin-top: 5px;
+  }
+
+  .content > div {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 15px;
+    height: auto;
+    float: none;
+    display: block;
+  }
+
+  .layui-elem-field .layui-field-box {
+    max-height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+  }
+
+  /* Make list items more touch-friendly */
+  .layui-field-box > div > div {
+    padding: 4px; /* Reduced from 8px to make spacing even smaller */
+    font-size: 16px; /* Keep 16px on mobile as requested */
+    line-height: 1.4;
+  }
+
+  /* Adjust legend sizes */
+  .layui-elem-field legend {
+    font-size: 16px;
+    padding: 0 10px;
+  }
+
+  /* Ensure dropdowns are usable on mobile */
+  .layui-select, .layui-input {
+    height: 44px;
+    line-height: 1.4;
+    font-size: 16px;
+  }
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .content > div {
+    width: 48%;
+    margin-left: 2%;
+  }
+
+  .content > div:nth-child(2n+1) {
+    clear: both;
+  }
+}
 </style>
 </head>
 <body>

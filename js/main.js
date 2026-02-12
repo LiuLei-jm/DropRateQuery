@@ -387,8 +387,42 @@ function updateRightNavItem() {
   }
 }
 
+// Function to filter version list based on search keyword
+function filterVersionList(keyword) {
+  keyword = sanitizeInput(keyword || '').toLowerCase();
+
+  // Get all buttons in the version list container
+  const $versionButtons = $('.version_list button');
+
+  if (keyword === '') {
+    // Show all buttons if no keyword
+    $versionButtons.show();
+  } else {
+    // Filter buttons based on the keyword
+    $versionButtons.each(function() {
+      const buttonName = $(this).text().toLowerCase();
+      const showButton = buttonName.indexOf(keyword) !== -1;
+      $(this).toggle(showButton);
+    });
+  }
+}
+
 // Initialize on page load
 $(function () {
   initialize_page();
   updateRightNavItem(); // Update the right navigation item based on current page
+
+  // Add event handler for version search button
+  $('#searchVersion').click(function() {
+    const keyword = $('#versionSearch').val();
+    filterVersionList(keyword);
+  });
+
+  // Add event handler for Enter key in search input
+  $('#versionSearch').keypress(function(e) {
+    if (e.which === 13) { // Enter key
+      const keyword = $(this).val();
+      filterVersionList(keyword);
+    }
+  });
 });
