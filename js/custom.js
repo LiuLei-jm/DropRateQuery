@@ -1,7 +1,7 @@
 var indextitle = "爆率查询";
 var gmqqhao = "14699396";
 var gmqqqun = "976463809";
-var qqunlink = "https://qm.qq.com/cgi-bin/qm/qr?k=7LvYricvxSRAUTL3IzjiWUOTquruTNq8&amp;jump_from=webapi";
+var qqunlink = "https://qm.qq.com/cgi-bin/qm/qr?k=E5FBYS7jAUoXVBKu9CRZ5G8LUlLq_1pw&jump_from=webapi&authKey=YqVLyfOSv0e4NjbhlbBybcI4ziF85KjzeAzRbWKGsWmCC0LwBmkXihifaI7iPCw3";
 
 var version_list = [
 	{

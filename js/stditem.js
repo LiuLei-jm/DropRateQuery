@@ -204,6 +204,37 @@ $(function () {
     getEquByKey();
   });
 
+  // Use event delegation for both native and layui select elements
+  $(document).on('change', '#itemFilter, select[lay-filter="itemFilter"]', function() {
+    const selectedValue = $(this).val();
+    console.log("Filter changed to: ", selectedValue); // Debug log
+    // Clear previous results when filter changes
+    $("#monList, #mapList, #mapTransferList, #equList").html("");
+    // Refresh items based on new filter
+    getEquByKey();
+  });
+
+  // Initialize layui form elements if available
+  if (typeof layui !== 'undefined' && layui.form) {
+    // Add the lay-filter attribute to the select element to enable layui events
+    $('#itemFilter').attr('lay-filter', 'itemFilter');
+
+    // Also listen for layui's select event as an additional measure
+    layui.form.on('select', function(data) {
+      // Only handle our specific filter
+      if (data.elem.id === 'itemFilter' || data.filter === 'itemFilter') {
+        console.log("Layui filter changed to: ", data.value); // Debug log
+        // Clear previous results when filter changes
+        $("#monList, #mapList, #mapTransferList, #equList").html("");
+        // Refresh items based on new filter
+        getEquByKey();
+      }
+    });
+
+    // Render the form elements to apply layui styles and activate the listeners
+    layui.form.render();
+  }
+
   // Check URL for version parameter first
   var searchParams = new URLSearchParams(window.location.search);
   var versionParam = searchParams.get("v");
@@ -219,6 +250,12 @@ $(function () {
         }
       }
     }
+  }
+
+  // Set default value for item filter and ensure layui renders it properly first
+  $("#itemFilter").val('hasOrigin');
+  if (typeof layui !== 'undefined' && layui.form) {
+    layui.form.render('select'); // Re-render just the select elements
   }
 
   // Load data if not already loaded
@@ -310,6 +347,19 @@ function getEquByKey() {
     return;
   }
 
+  let filterType;
+  // Get the filter selection: 'hasOrigin' for items with monsters/NPCs, 'all' for all items
+  if (typeof layui !== 'undefined' && layui.form) {
+    // If using layui, try to get value with multiple fallbacks
+    const $select = $('#itemFilter');
+    filterType = $select.val() || document.getElementById('itemFilter').value || $select.find('option:selected').val() || 'hasOrigin';
+  } else {
+    filterType = $("#itemFilter").val() || 'hasOrigin';
+  }
+
+  // Debug log to see what filterType is being used
+  console.log("Current filterType: ", filterType);
+
   // Get the search keyword from input field and sanitize it
   let keyword = $("#key").val();
   keyword = sanitizeInput(keyword).toLowerCase();
@@ -321,7 +371,7 @@ function getEquByKey() {
     searchCache.clear(); // Clear cache when showing all items to avoid stale bindings
   } else {
     // Use cache if available for non-empty keywords
-    cacheKey = `fuzzy_${keyword}_${Stdlist.length}`; // Updated cache key to reflect fuzzy search
+    cacheKey = `fuzzy_${keyword}_${filterType}_${Stdlist.length}`; // Updated cache key to include filter type
     if (searchCache.has(cacheKey)) {
       const cachedResult = searchCache.get(cacheKey);
       const container = document.getElementById('equList');
@@ -346,8 +396,9 @@ function getEquByKey() {
           for (const i of indices) {
             try {
               const item = Stdlist[i];
-              // Check if the item has related monsters or NPCs
-              if (item && (item.mon !== "-1" || item.npc !== "-1")) {
+              // Check if the item should be displayed based on filter type
+              const shouldDisplay = filterType === 'all' || (item && (item.mon !== "-1" || item.npc !== "-1"));
+              if (item && shouldDisplay) {
                 // Create element for the item entry with sanitized content
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'hove';
@@ -379,8 +430,9 @@ function getEquByKey() {
             // Use fuzzy search with case-insensitive matching for both English and Chinese
             const itemNameLower = item.name.toLowerCase();
             if (matchesFuzzily(itemNameLower, keyword)) {
-              // Check if the item has related monsters or NPCs
-              if (item.mon !== "-1" || item.npc !== "-1") {
+              // Check if the item should be displayed based on filter type
+              const shouldDisplay = filterType === 'all' || (item.mon !== "-1" || item.npc !== "-1");
+              if (shouldDisplay) {
                 // Create element for the item entry with sanitized content
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'hove';
@@ -404,11 +456,13 @@ function getEquByKey() {
       }
     }
   } else {
-    // Show all items if no keyword provided
+    // Show all items if no keyword provided, but filtered by selected type
     for (let i = 0; i < Stdlist.length; i++) {
       try {
         const item = Stdlist[i];
-        if (item && (item.mon !== "-1" || item.npc !== "-1")) {
+        // Check if the item should be displayed based on filter type
+        const shouldDisplay = filterType === 'all' || (item && (item.mon !== "-1" || item.npc !== "-1"));
+        if (item && shouldDisplay) {
           const itemDiv = document.createElement('div');
           itemDiv.className = 'hove';
           itemDiv.setAttribute('listId', i);
