@@ -2,9 +2,10 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
-    <link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet" />
+    <link href="/layui/2.8.15/css/layui.css" media="all" rel="stylesheet" />
     <style>
       html,
       body {
@@ -12,6 +13,7 @@
         height: 100%;
         padding: 0px;
         margin: 0px;
+        font-size: 14px; /* Default font size for better mobile readability */
       }
       .layui-bg-green,
       .layui-btn {
@@ -52,6 +54,7 @@
       }
       .content > div .layui-elem-field .layui-field-box > div > div {
         cursor: pointer;
+        font-size: 14px; /* Reduced from 16px for PC */
       }
       .content > div .layui-elem-field .layui-field-box > div > div:hover {
         color: #007ddb;
@@ -84,6 +87,81 @@
       .version_list button {
         margin: 0 3px 3px 0;
         border-radius: 20px;
+        padding: 8px 12px; /* Better touch targets for mobile */
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        line-height: normal;
+      }
+
+      /* Responsive styles for mobile devices */
+      @media screen and (max-width: 768px) {
+        body {
+          font-size: 16px; /* Ensure readable font size on mobile */
+        }
+
+        #menu .layui-nav {
+          padding: 0 10px;
+        }
+
+        .layui-nav-item a {
+          padding: 0 8px;
+          font-size: 16px;
+        }
+
+        .content {
+          width: 100%;
+          height: auto;
+          padding: 10px;
+        }
+
+        .content > div {
+          width: 100%;
+          margin-left: 0;
+          margin-bottom: 15px;
+          height: auto;
+        }
+
+        .layui-elem-field .layui-field-box {
+          max-height: 300px;
+          overflow-y: auto;
+        }
+
+        .version_list {
+          justify-content: center;
+        }
+
+        .version_list button {
+          margin: 5px;
+          padding: 10px 15px;
+          font-size: 16px;
+          min-height: 44px; /* Minimum touch target size */
+        }
+
+        /* Adjust for mobile list items if any exist */
+        .layui-field-box > div > div {
+          padding: 2px; /* Reduced from 4px to make spacing even smaller */
+          font-size: 16px; /* Keep 16px on mobile as requested */
+          line-height: 1.4;
+        }
+
+        #main {
+          height: auto;
+          padding-bottom: 20px;
+        }
+      }
+
+      @media screen and (min-width: 769px) and (max-width: 1024px) {
+        .content > div {
+          width: 48%;
+          margin-left: 2%;
+        }
+
+        .content > div:nth-child(2n+1) {
+          clear: both;
+        }
       }
     </style>
   </head>
@@ -107,18 +185,6 @@
         <li class="layui-nav-item">
           <a href="npc.html">NPC查询</a>
         </li>
-        <li
-          class="layui-nav-item"
-          id="right-nav-item"
-          style="float: right; cursor: pointer; color: #fff"
-        >
-          <a href="javascript:join_qq_group()" id="right-nav-link"
-            ><i class="layui-icon layui-icon-login-qq"></i>
-            <span>QQ群:</span>
-            <span class="layui-badge-dot"></span>
-            </a
-          >
-        </li>
       </ul>
     </div>
     <div style="margin: 0 auto; max-width: 55%; height: 88%">
@@ -140,10 +206,19 @@
         <legend>版本选择</legend>
       </fieldset>
 
+      <div class="layui-form-item" style="width: 80%;margin: 10px auto">
+        <div class="layui-input-inline" style="width: calc(100% - 200px)">
+          <input id="versionSearch" type="text" name="key" required lay-verify="required" placeholder="请输入版本关键字进行筛选" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-input-inline" style="width: 180px">
+          <button id="searchVersion" type="button" class="layui-btn">搜索版本</button>
+        </div>
+      </div>
+
       <div class="version_list"></div>
     </div>
 
-    <script src="/layui/2.8.15/layui.min.js"></script>
+    <script src="/layui/2.8.15/layui.js"></script>
     <script src="/jquery/3.6.1/jquery.min.js"></script>
     <script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="js/custom.js"></script>
