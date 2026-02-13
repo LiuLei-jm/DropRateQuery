@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title></title>
-<link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet">
+<link href="/layui/2.8.15/css/layui.css" media="all" rel="stylesheet">
 <style>
 html,body {
   width: 100%;
@@ -224,14 +224,35 @@ html,body {
 </div>
 
 <div id="main">
-    <div class="layui-form layui-row layui-col-space16" style="width: 95%; margin: 5px 0px 5px 2.2%">
-        <div class="layui-col-md1">
+      <style>
+        .mon-search-form-container {
+          display: flex;
+          align-items: center;
+          width: 95%;
+          margin: 10px auto;
+        }
+        .mon-search-form-container .layui-input-inline {
+          margin-right: 2px;
+        }
+        .mon-filter-select {
+          width: 100px;
+        }
+        .mon-search-input {
+          width: calc(100% - 307px);
+          min-width: 440px;
+        }
+        .mon-search-button {
+          width: 205px;
+        }
+      </style>
+      <div class="layui-form-item mon-search-form-container">
+        <div class="layui-input-inline mon-filter-select">
             <select id="monsterFilter" class="layui-select">
                 <option value="dropsItems">爆物品的</option>
                 <option value="all">所有怪物</option>
             </select>
         </div>
-        <div class="layui-col-md6">
+        <div class="layui-input-inline mon-search-input"style="width: calc(100% - 540px)">
             <input
                 id="key"
                 type="text"
@@ -243,13 +264,12 @@ html,body {
                 class="layui-input"
             />
         </div>
-        <div class="layui-col-md1">
+        <div class="layui-input-inline mon-search-button">
             <button id="search" type="button" class="layui-btn">
                 搜索怪物名称
             </button>
         </div>
-        <div class="layui-col-md4"></div>
-    </div>
+      </div>
 
     <div class="content">
         <div class="equ">
@@ -296,7 +316,7 @@ html,body {
 
 </div>
 </body>
-<script src="/layui/2.8.15/layui.min.js"></script>
+<script src="/layui/2.8.15/layui.js"></script>
 <script src="/jquery/3.6.1/jquery.min.js"></script>
 <script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
 <script src="js/custom.js"></script>

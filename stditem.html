@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title></title>
-    <link href="/layui/2.8.15/css/layui.min.css" media="all" rel="stylesheet" />
+    <link href="/layui/2.8.15/css/layui.css" media="all" rel="stylesheet" />
     <style>
       html,
       body {
@@ -235,14 +235,35 @@
       </ul>
     </div>
     <div id="main">
-      <div class="layui-form layui-row layui-col-space16" style="width: 95%; margin: 5px 0px 5px 2.2%">
-        <div class="layui-col-md1">
+        <style>
+        .stditem-search-form-container {
+          display: flex;
+          align-items: center;
+          width: 95%;
+          margin: 10px auto;
+        }
+        .stditem-search-form-container .layui-input-inline {
+          margin-right: 2px;
+        }
+        .stditem-filter-select {
+          width: 100px;
+        }
+        .stditem-search-input {
+          width: calc(100% - 307px);
+          min-width: 440px;
+        }
+        .stditem-search-button {
+          width: 205px;
+        }
+      </style>
+      <div class="layui-form-item stditem-search-form-container" >
+        <div class="layui-input-inline stditem-filter-select">
           <select id="itemFilter" class="layui-select">
             <option value="hasOrigin">有出处的</option>
             <option value="all">所有物品</option>
           </select>
         </div>
-        <div class="layui-col-md6">
+        <div class="layui-input-inline stditem-search-input" style="width: calc(100% - 540px)">
           <input
             id="key"
             type="text"
@@ -254,12 +275,11 @@
             class="layui-input"
           />
         </div>
-        <div class="layui-col-md1">
+        <div class="layui-input-inline stditem-search-button">
           <button id="search" type="button" class="layui-btn">
             搜索物品装备
           </button>
         </div>
-        <div class="layui-col-md4"></div>
       </div>
 
       <div class="content">
@@ -323,7 +343,7 @@
         </div>
       </div>
     </div>
-    <script src="/layui/2.8.15/layui.min.js"></script>
+    <script src="/layui/2.8.15/layui.js"></script>
     <script src="/jquery/3.6.1/jquery.min.js"></script>
     <script src="/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
     <script src="js/custom.js"></script>
